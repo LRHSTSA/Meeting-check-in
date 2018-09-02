@@ -66,6 +66,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('<link rel="stylesheet" href="/style.css" type="text/css" /> <div class="flash flash-error"><h2>Blame <strike>Lucas</strike>, Katie and yourself</h2> <p>But seriously, there are about 10 things that can cause this error because the code for this page is pretty bad. There are probably more than 10 actually, it is <i>really</i> bad. <br><br>Just go back and try again</p> <button onclick="window.location.href=window.location.href" class="btn-error">Go Back</button></div>')
 })
 
-app.listen('tsa.lrhs.live', () => {
+app.listen(3000, () => {
   console.log(`App running at http://localhost:3000`)
 })
