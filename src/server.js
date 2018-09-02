@@ -29,8 +29,7 @@ module.exports = function vhost(hostname, server) {
   };
 };
 
-connect()
-  .use(connect.vhost('tsa.lrhs.live', app))
+vhost('tsa.lrhs.live', app))
 
 const middlewares = [
   helmet(),
