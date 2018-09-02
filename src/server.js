@@ -14,14 +14,22 @@ const helmet = require('helmet')
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
-  express.createServer()
-    // .use(express.vhost('lrhs.live', express.static('/var/www/html/lwl')))
-    // .use(express.vhost('lucasmagno.xyz', express.static('/var/www/html/lucasmagno/')))
-    .use(express.vhost('tsa.lrhs.live', app))
-    .use(function (req, res) {
-      res.send('Sorry, I do not know how to handle that domain.');
-    })
-    .listen(80);
+connect()
+  .use(connect.vhost('tsa.lrhs.live', server))
+
+module.exports = function vhost(hostname, server) {
+  if (!hostname) throw new Error('vhost hostname required');
+  if (!server) throw new Error('vhost server required');
+  var regexp = new RegExp('^' + hostname.replace(/[^*\w]/g, '\\$&').replace(/[*]/g, '(?:.*?)') + '$', 'i');
+  if (server.onvhost) server.onvhost(hostname);
+  return function vhost(req, res, next) {
+    if (!req.headers.host) return next();
+    var host = req.headers.host.split(':')[0];
+    if (!regexp.test(host)) return next();
+    if ('function' == typeof server) return server(req, res, next);
+    server.emit('request', req, res);
+  };
+};
 
 const middlewares = [
   helmet(),
