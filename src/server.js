@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const flash = require('express-flash')
 const helmet = require('helmet')
+const connect = require('connect')
 
 
 app.set('views', path.join(__dirname, 'views'))
