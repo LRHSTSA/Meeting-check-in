@@ -15,9 +15,6 @@ const connect = require('connect')
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
-connect()
-  .use(connect.vhost('tsa.lrhs.live', app))
-
 module.exports = function vhost(hostname, server) {
   if (!hostname) throw new Error('vhost hostname required');
   if (!server) throw new Error('vhost server required');
@@ -31,6 +28,9 @@ module.exports = function vhost(hostname, server) {
     server.emit('request', req, res);
   };
 };
+
+connect()
+  .use(connect.vhost('tsa.lrhs.live', app))
 
 const middlewares = [
   helmet(),
