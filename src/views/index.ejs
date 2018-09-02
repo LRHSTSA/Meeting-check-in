@@ -1,2 +1,52 @@
+<html>
 
-<h1>Working With Forms in Node.js</h1>
+<body>
+    <div class="form-header">
+        <% if (Object.keys(errors).length === 0) { %>
+        <h2>Please Check-In</h2>
+        <% } %>
+    </div>
+
+
+    <form class="form" method="POST" novalidate>
+        <div class="form-field <%= errors.name ? 'form-field-invalid' : '' %>">
+            <label for="name">Name</label>
+            <input class="input" id="name" name="name" type="name" value="<%= data.name %>" autofocus autocomplete="off" placeholder="Name" />
+            <% if (errors.name) { %>
+            <div class="error">
+                <%= errors.name.msg %>
+            </div>
+            <% } %>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn">Submit</button>
+        </div>
+    </form>
+    <table class="table">
+        <tr>
+            <th class="table-collumn table-part">Name</th>
+            <th class="table-part fix-table-text">Check-In</th>
+        </tr>
+        <% function toTitleCase(str) { %>
+    <% return str.replace(/\w\S*/g, function(txt){ %>
+        <% return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); %>
+    <% }) ;%>
+<% } %>
+        <% for (let i = 0; i < database.names.length; i++) { %>
+        <tr>
+            <td class="table-part2">
+                <%= toTitleCase(database.names[i].name) %>
+            </td>
+            <td class="fix-table-text">
+                <form method="POST" novalidate>
+                    <input name="name" value="<%= database.names[i].name %>" class="invisible"/>
+                    <button type="submit" class="btn">Submit</button>
+                </form>
+            </td>
+        </tr>
+        <% } %>
+    </table>
+</body>
+
+
+</html>
