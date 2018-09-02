@@ -16,7 +16,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
 connect()
-  .use(connect.vhost('tsa.lrhs.live', server))
+  .use(connect.vhost('tsa.lrhs.live', app))
 
 module.exports = function vhost(hostname, server) {
   if (!hostname) throw new Error('vhost hostname required');
