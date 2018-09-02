@@ -14,6 +14,15 @@ const helmet = require('helmet')
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
+  express.createServer()
+    // .use(express.vhost('lrhs.live', express.static('/var/www/html/lwl')))
+    // .use(express.vhost('lucasmagno.xyz', express.static('/var/www/html/lucasmagno/')))
+    .use(express.vhost('tsa.lrhs.live', app))
+    .use(function (req, res) {
+      res.send('Sorry, I do not know how to handle that domain.');
+    })
+    .listen(80);
+
 const middlewares = [
   helmet(),
   layout(),
