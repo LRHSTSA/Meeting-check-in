@@ -1,0 +1,111 @@
+<html>
+
+
+<body onload="init()">
+    <script>
+        function dropDown() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        function send() {
+            xhttp.open("POST", "test", true);
+            xhttp.send();
+        }
+    </script>
+    <% function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    }) }
+    date = ((new Date().getMonth() + 1) < 10 ? '0' + (new Date().getMonth() + 1) : (new Date().getMonth() + 1)) + '/' + (new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate()) + '/' + new Date().getFullYear()
+    
+    function checkForValue(json, value) {
+        if (!json) {
+            return false;
+        }
+        for (let i = 0; i < json.length; i++) {
+            if (json[i].name == value) {
+                return i;
+            }
+        }
+        return 'false';
+    }
+if (Object.keys(db).length === 0) { %>
+    <div class="form-header">
+        <% if (Object.keys(errors).length === 0) { %>
+        <h2>Please enter the administrator password</h2>
+        <% } %>
+    </div>
+    <form class="form" method="POST" novalidate>
+        <div class="form-field <%= errors.password ? 'form-field-invalid' : '' %>">
+            <label for="password">Password</label>
+            <input class="input" type="password" id="password" name="password" autocomplete="off" autofocus value="<%= data.password %>">
+            <% if (errors.password) { %>
+            <div class="error">
+                <%= errors.password.msg %>
+            </div>
+            <% } %>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn">Submit</button>
+        </div>
+    </form>
+    <% } %>
+    <% if (Object.keys(db).length > 0) {
+     for (key in db) { %>
+    <table class="table" id="table">
+        <tr>
+            <th>
+                <%=key%>
+            </th>
+        </tr>
+        <tr>
+            <th class="table-collumn table-part">Name</th>
+            <th class="table-part fix-table-text">Check-In Time</th>
+        </tr>
+        <% for (let i = 0; i < dbList.names.length; i++) {
+        if (checkForValue(db[key], dbList.names[i].name) != 'false') { %>
+        <tr>
+            <td class="table-part2 <% if(i % 2 === 0) { %>background-table-dark-present<% } else { %> background-table-light-present <% } %>">
+                <%= toTitleCase(dbList.names[i].name) %>
+            </td>
+            <td class="fix-table-text">
+                <%= db[key][checkForValue(db[key], dbList.names[i].name)].time %>
+            </td>
+        </tr>
+        <% } else { %>
+        <tr>
+            <td class="table-part2 <% if(i % 2 === 0) { %>background-table-dark-absent<% } else { %> background-table-light-absent <% } %>">
+                <%= toTitleCase(dbList.names[i].name) %>
+            </td>
+            <td class="fix-table-text">
+                Absent
+            </td>
+        </tr>
+        <% } %>
+        <% } %>
+    </table>
+    <% } %>
+    <% } %>
+    <footer class="footer">
+        <ul class="footer-ul">
+            <li class="footer-ul-li"><i>Copyright &copy;
+                    <%= new Date().getFullYear() %> Lucas Magno, LRHS TSA. All Rights Reserved.</i></li>
+        </ul>
+    </footer>
+</body>
+
+</html>

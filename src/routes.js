@@ -63,13 +63,14 @@ router.get('/', (req, res) => {
     res.render('index', {
         data: {},
         errors: {},
-        database: JSON.parse(fs.readFileSync('./db/listofnames.json'))
+        database: JSON.parse(fs.readFileSync('./db/listofnames.json')),
+        checkedIn: JSON.parse(fs.readFileSync('./db/db.json'))
     })
 });
 
-app.post('/', function (req, res) {
-    res.send(database = JSON.parse(fs.readFileSync('./db/listofnames.json')))
-})
+router.get('/500', (req, res) => {
+    res.render('500');
+});
 
 router.post('/', [
     check('name')
@@ -84,23 +85,28 @@ router.post('/', [
     if (!errors.isEmpty()) {
         return res.render('index', {
             data: req.body,
-            errors: errors.mapped()
+            errors: errors.mapped(),
+            database: JSON.parse(fs.readFileSync('./db/listofnames.json')),
+            checkedIn: JSON.parse(fs.readFileSync('./db/db.json'))
         })
     }
+
     const data = matchedData(req)
 
     let currentDay = getDate();
     let name = data.name.toLowerCase();
 
-
     let db = JSON.parse(fs.readFileSync('./db/db.json'))
     let list = JSON.parse(fs.readFileSync('./db/listofnames.json'))
-
 
     if (!checkForValue(list["names"], name)) {
 
         list['names'].push({
             "name": name
+        });
+
+        list.names.sort((a, b) => {
+            return a.name.localeCompare(b.name);
         });
 
         fs.writeFileSync('./db/listofnames.json', JSON.stringify(list));
@@ -120,7 +126,39 @@ router.post('/', [
         fs.writeFileSync('./db/db.json', JSON.stringify(db));
     }
 
-    res.redirect('/')
+    res.redirect('https://tsa.lrhs.live')
+})
+
+router.get('/admin', (req, res) => {
+    res.render('admin', {
+        errors: {},
+        data: {},
+        db: {},
+        dbList: {}
+    })
+});
+
+router.post('/admin', [check('password')
+    .equals('blamejake')
+    .withMessage('Wrong password, nice try Jimmy.')
+], (req, res) => {
+    const errors = validationResult(req)
+    console.log(errors.mapped());
+    if (!errors.isEmpty()) {
+        return res.render('admin', {
+            data: req.body,
+            errors: errors.mapped(),
+            db: {},
+            dbList: {}
+        })
+    }
+    res.render('admin', {
+        data: {},
+        errors: {},
+        db: JSON.parse(fs.readFileSync('./db/db.json')),
+        dbList: JSON.parse(fs.readFileSync('./db/listofnames.json'))
+    })
+
 })
 
 module.exports = router

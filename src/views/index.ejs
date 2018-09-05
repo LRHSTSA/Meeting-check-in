@@ -1,17 +1,17 @@
 <html>
 
-<body>
+<body onload="init()">
     <div class="form-header">
         <% if (Object.keys(errors).length === 0) { %>
         <h2>Please Check-In</h2>
         <% } %>
     </div>
 
-
-    <form class="form" method="POST" novalidate>
+    <form class="form push-form-down" method="POST" novalidate>
         <div class="form-field <%= errors.name ? 'form-field-invalid' : '' %>">
             <label for="name">Name</label>
-            <input class="input" id="name" name="name" type="name" value="<%= data.name %>" autofocus autocomplete="off" placeholder="Name" />
+            <input class="input" id="name" name="name" type="name" value="<%= data.name %>" autofocus autocomplete="off"
+                placeholder="Name" />
             <% if (errors.name) { %>
             <div class="error">
                 <%= errors.name.msg %>
@@ -25,27 +25,65 @@
     <table class="table">
         <tr>
             <th class="table-collumn table-part">Name</th>
-            <th class="table-part fix-table-text">Check-In</th>
+            <th class="table-collumn table-part">Status</th>
+            <th class=" table-part fix-table-text">Check-In</th>
         </tr>
+        <% function backgroundColor(i) {
+            if(i % 2 === 0) {
+                if (checkForValue(checkedIn[date], database.names[i].name) != 'false') {
+                    return 'background-table-dark-green';
+                } else {return 'background-table-dark';}
+            } else { 
+                if (checkForValue(checkedIn[date], database.names[i].name) != 'false') {
+                    return 'background-table-light-green';
+                } else {return 'background-table-light';}
+            }
+        } %>
         <% function toTitleCase(str) { %>
-    <% return str.replace(/\w\S*/g, function(txt){ %>
+        <% return str.replace(/\w\S*/g, function(txt){ %>
         <% return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); %>
-    <% }) ;%>
-<% } %>
+        <% }) ;%>
+        <% }
+date = ((new Date().getMonth() + 1) < 10 ? '0' + (new Date().getMonth() + 1) : (new Date().getMonth() + 1)) + '/' +
+    (new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate()) + '/' + new Date().getFullYear()
+    function checkForValue(json, value) { if (!json) { return 'false'; } for (let i=0; i < json.length; i++) { if
+    (json[i].name==value) { return i; } } return 'false' ; } %>
         <% for (let i = 0; i < database.names.length; i++) { %>
         <tr>
-            <td class="table-part2">
+            <td class="table-part2 <%= backgroundColor(i) %>">
                 <%= toTitleCase(database.names[i].name) %>
+            </td>
+            <td class="table-part2 <%= backgroundColor(i) %> fix-table-text">
+                <% if (checkForValue(checkedIn[date], database.names[i].name) != 'false') { %>
+                Checked-in
+                <%# checkedIn[date][checkForValue(checkedIn[date], database.names[i].name)].time %>
+                <% } else { %>
+                <%} %>
             </td>
             <td class="fix-table-text">
                 <form method="POST" novalidate>
-                    <input name="name" value="<%= database.names[i].name %>" class="invisible"/>
+                    <input name="name" value="<%= database.names[i].name %>" class="invisible" />
                     <button type="submit" class="btn">Submit</button>
                 </form>
             </td>
         </tr>
         <% } %>
     </table>
+    <hr class="vertical-line" width="0px" size="500">
+    <div class="table instructions-div">
+        <h2>Instructions:</h2>
+        To check-in simply type your name and click submit or click the submit button next to your name on the list.
+        Either one will work.
+    </div>
+    <div class="flash flash-success modal-success successful">
+        Welcome!
+    </div>
+    <footer class="footer">
+        <ul class="footer-ul">
+            <li class="footer-ul-li"><i>Copyright &copy;
+                    <%= new Date().getFullYear() %> Lucas Magno, LRHS TSA. All Rights Reserved.</i></li>
+        </ul>
+    </footer>
 </body>
 
 
