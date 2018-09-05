@@ -71,7 +71,7 @@ let server = bouncy(function (req, res, bounce) {
     else if (req.headers.host === 'lucasmagno.xyz' || req.headers.host === 'www.lucasmagno.xyz') {
         bounce(8002);
     }
-    else if (req.headers.host === 'tsa.lrhs.live') {
+    else if (req.headers.host === 'tsa.lrhs.live' || req.headers.host === '35.188.69.121') {
       bounce(8080)
     }
 });
