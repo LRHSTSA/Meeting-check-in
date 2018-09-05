@@ -126,7 +126,7 @@ router.post('/', [
         fs.writeFileSync('./db/db.json', JSON.stringify(db));
     }
 
-    res.redirect('https://tsa.lrhs.live')
+    res.redirect('..')
 })
 
 router.get('/admin', (req, res) => {
