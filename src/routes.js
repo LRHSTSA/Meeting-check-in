@@ -126,7 +126,12 @@ router.post('/', [
         fs.writeFileSync('./db/db.json', JSON.stringify(db));
     }
 
-    res.redirect(302, '/')
+    res.render('index', {
+        data: {},
+        errors: {},
+        database: JSON.parse(fs.readFileSync('./db/listofnames.json')),
+        checkedIn: JSON.parse(fs.readFileSync('./db/db.json'))
+    })
 })
 
 router.get('/admin', (req, res) => {
