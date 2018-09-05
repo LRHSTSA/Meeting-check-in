@@ -126,7 +126,7 @@ router.post('/', [
         fs.writeFileSync('./db/db.json', JSON.stringify(db));
     }
 
-    res.redirect(301, '/')
+    // res.redirect(301, '/')
 })
 
 router.get('/admin', (req, res) => {
