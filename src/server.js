@@ -12,6 +12,8 @@ const flash = require('express-flash')
 const helmet = require('helmet')
 const connect = require('connect')
 const ejsLint = require('ejs-lint');
+const bouncy = require('bouncy');
+
 
 
 app.set('views', path.join(__dirname, 'views'))
@@ -61,6 +63,20 @@ app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(500).send('<link rel="stylesheet" href="/style.css" type="text/css" /> <div class="flash flash-error"><h2>Blame <strike>Lucas</strike> Katie</h2> <p>But seriously, there are about 10 things that can cause this error because the code for this page is pretty bad. There are probably more than 10 actually, it is <i>really</i> bad. <br><br>Just go back and try again</p> <button onclick="window.location.href=window.location.href" class="btn-error">Go Back</button></div>')
 })
+
+let server = bouncy(function (req, res, bounce) {
+    if (req.headers.host === 'lrhs.live' || req.headers.host === 'www.lrhs.live') {
+        bounce(8001);
+    }
+    else if (req.headers.host === 'lucasmagno.xyz' || req.headers.host === 'www.lucasmagno.xyz') {
+        bounce(8002);
+    }
+    else if (req.headers.host === 'tsa.lrhs.live') {
+      bounce(8080)
+    }
+});
+
+server.listen(80);
 
 app.listen(8080, () => {
   console.log(`App running at http://localhost:8080`)
