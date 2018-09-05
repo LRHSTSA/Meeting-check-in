@@ -126,12 +126,14 @@ router.post('/', [
         fs.writeFileSync('./db/db.json', JSON.stringify(db));
     }
 
-    res.render('index', {
-        data: {},
-        errors: {},
-        database: JSON.parse(fs.readFileSync('./db/listofnames.json')),
-        checkedIn: JSON.parse(fs.readFileSync('./db/db.json'))
-    })
+    // res.render('index', {
+    //     data: {},
+    //     errors: {},
+    //     database: JSON.parse(fs.readFileSync('./db/listofnames.json')),
+    //     checkedIn: JSON.parse(fs.readFileSync('./db/db.json'))
+    // })
+
+    res.send('<script>window.location.href = window.location.href</script>')
 })
 
 router.get('/admin', (req, res) => {
