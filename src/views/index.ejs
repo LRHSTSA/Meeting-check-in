@@ -63,7 +63,7 @@ date = ((new Date().getMonth() + 1) < 10 ? '0' + (new Date().getMonth() + 1) : (
             <td class="fix-table-text">
                 <form method="POST" novalidate>
                     <input name="name" value="<%= database.names[i].name %>" class="invisible" />
-                    <button type="submit" class="btn">Submit</button>
+                    <button type="submit" class="btn" onclick="window.location.href=window.location.href">Submit</button>
                 </form>
             </td>
         </tr>
