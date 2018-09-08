@@ -65,15 +65,13 @@ app.use((err, req, res, next) => {
 })
 
 let server = bouncy(function (req, res, bounce) {
-    if (req.headers.host === 'lrhs.live' || req.headers.host === 'www.lrhs.live') {
-        bounce(8001);
-    }
-    else if (req.headers.host === 'lucasmagno.xyz' || req.headers.host === 'www.lucasmagno.xyz') {
-        bounce(8002);
-    }
-    else if (req.headers.host === 'tsa.lrhs.live' || req.headers.host === '35.188.69.121') {
-      bounce(8080)
-    }
+  if (req.headers.host === 'lrhs.live' || req.headers.host === 'www.lrhs.live') {
+    bounce(8001);
+  } else if (req.headers.host === 'lucasmagno.xyz' || req.headers.host === 'www.lucasmagno.xyz') {
+    bounce(8002);
+  } else if (req.headers.host === 'tsa.lrhs.live' || req.headers.host === 'checkin.lrhstsa.com' || req.headers.host === 'lrhstsa.com') {
+    bounce(8080)
+  }
 });
 
 server.listen(80);
