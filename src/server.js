@@ -14,15 +14,10 @@ const connect = require('connect')
 const ejsLint = require('ejs-lint');
 const bouncy = require('bouncy');
 
-
-
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
-
 const middlewares = [
   helmet(),
   layout(),
-  express.static(path.join(__dirname, 'public')),
+  express.static(path.join(__dirname, 'views')),
   bodyParser.urlencoded(),
   validator(),
   cookieParser(),
@@ -69,7 +64,7 @@ let server = bouncy(function (req, res, bounce) {
     bounce(8001);
   } else if (req.headers.host === 'lucasmagno.xyz' || req.headers.host === 'www.lucasmagno.xyz') {
     bounce(8002);
-  } else if (req.headers.host === 'tsa.lrhs.live' || req.headers.host === 'checkin.lrhstsa.com' || req.headers.host === 'lrhstsa.com') {
+  } else if (req.headers.host === 'checkin.lrhstsa.com') {
     bounce(8080)
   }
 });
