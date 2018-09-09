@@ -59,17 +59,17 @@ app.use((err, req, res, next) => {
   res.status(500).send('<link rel="stylesheet" href="/style.css" type="text/css" /> <div class="flash flash-error"><h2>Blame <strike>Lucas</strike> Katie</h2> <p>But seriously, there are about 10 things that can cause this error because the code for this page is pretty bad. There are probably more than 10 actually, it is <i>really</i> bad. <br><br>Just go back and try again</p> <button onclick="window.location.href=window.location.href" class="btn-error">Go Back</button></div>')
 })
 
-let server = bouncy(function (req, res, bounce) {
-  if (req.headers.host === 'lrhs.live' || req.headers.host === 'www.lrhs.live') {
-    bounce(8001);
-  } else if (req.headers.host === 'lucasmagno.xyz' || req.headers.host === 'www.lucasmagno.xyz') {
-    bounce(8002);
-  } else if (req.headers.host === 'checkin.lrhstsa.com') {
-    bounce(8080)
-  }
-});
+// let server = bouncy(function (req, res, bounce) {
+//   if (req.headers.host === 'lrhs.live' || req.headers.host === 'www.lrhs.live') {
+//     bounce(8001);
+//   } else if (req.headers.host === 'lucasmagno.xyz' || req.headers.host === 'www.lucasmagno.xyz') {
+//     bounce(8002);
+//   } else if (req.headers.host === 'checkin.lrhstsa.com') {
+//     bounce(8080)
+//   }
+// });
 
-server.listen(80);
+// server.listen(80);
 
 app.listen(8080, () => {
   console.log(`App running at http://localhost:8080`)
