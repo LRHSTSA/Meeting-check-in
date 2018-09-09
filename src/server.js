@@ -14,10 +14,13 @@ const connect = require('connect')
 const ejsLint = require('ejs-lint');
 const bouncy = require('bouncy');
 
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'ejs')
+
 const middlewares = [
   helmet(),
   layout(),
-  express.static(path.join(__dirname, 'views')),
+  express.static(path.join(__dirname, 'public')),
   bodyParser.urlencoded(),
   validator(),
   cookieParser(),
